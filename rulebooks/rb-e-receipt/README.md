@@ -419,6 +419,8 @@ Versioning of the `vct` follows the `x.y` model:
 - **Minor version (y):** backward-compatible changes, such as adding optional attributes, display claims, or new languages.
 - **Major version (x):** breaking changes, such as removing or renaming claims, or changes to mandatory fields.
 
+**Recorded exception.** In September 2026 (revision 2.1 of this Rulebook) the eReceipt-specific claim names were changed from camelCase to snake_case, for example `receiptNumber` to `receipt_number`, with no change in meaning. Under the rule above this is a major change; it was nevertheless made under `eu.we-build.ereceipt.1` and the major version was not increased. An implementation built against revision 2.0 needs to adopt the names in this section; the `vct` does not distinguish the two revisions. The keys inside `payments[].attributes` were not renamed.
+
 Every claim name used in an eReceipt SHALL fall into one of three groups: (a) an IANA-registered JWT claim (Section 3.2.1), (b) a publicly-defined name reused from another specification such as OpenID Connect or SD-JWT VC (Section 3.2.2), or (c) a private name defined specifically for the eReceipt attestation in this Rulebook (Section 3.2.3).
 
 For every claim, this Rulebook specifies whether the issuer MUST, MAY or MUST NOT make the claim selectively disclosable. Issuers SHALL also publish a Type Metadata Document for the eReceipt attestation type (as defined in Section 4 of [SD-JWT VC]), and the Type Metadata Document SHALL include Claim Selective Disclosure Metadata that matches the "Disclosable" column in the tables below.
