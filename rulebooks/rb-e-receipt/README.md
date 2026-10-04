@@ -277,7 +277,7 @@ The machine-readable schema artefact for this attestation is:
 | `verifications[].type` | EMV / OCMF / EPC SCT/SCT-INST | Standard of the technical proof carried in `verifications[]`: EMV for card authorisation cryptograms; OCMF for charge-metering proofs; SCT or SCT-INST for SEPA credit transfer (account-to-account). The EMV cryptogram itself (the AC and its cryptogramType ARQC) is carried in `payments[].attributes`, not here. The type-specific fields below apply only for the named type. | tstr | `"EMV"` |
 | `verifications[].version` | Verification profile (per `verifications[].type`) | Version of the verification schema used. | tstr | `"1.0"` |
 | `verifications[].public_key` | Verification profile (per `verifications[].type`) | Public key used for transaction signing, base64url-encoded. | tstr | `"MIIBIjANBg…"` |
-| `verifications[].transactionId` | Verification profile (per `verifications[].type`) | Unique identifier of the underlying payment transaction, as assigned by the PSP or payment scheme. When `payments[].attributes.transactionId` is also present, both SHALL identify the same payment transaction. | tstr | `"T-20260423-000871"` |
+| `verifications[].transaction_id` | Verification profile (per `verifications[].type`) | Unique identifier of the underlying payment transaction, as assigned by the PSP or payment scheme. When `payments[].attributes.transactionId` is also present, both SHALL identify the same payment transaction. | tstr | `"T-20260423-000871"` |
 
 ### 3.3 Optional attributes
 
@@ -507,7 +507,7 @@ For every claim, this Rulebook specifies whether the issuer MUST, MAY or MUST NO
 | `verifications[].type` | `type` | string | Section 2.2 | MUST NOT |
 | `verifications[].version` | `version` | string | Section 2.2 | MUST NOT |
 | `verifications[].public_key` | `public_key` | string | Section 2.2 | MUST NOT |
-| `verifications[].transactionId` | `transactionId` | string | Section 2.2 | MUST NOT |
+| `verifications[].transaction_id` | `transaction_id` | string | Section 2.2 | MUST NOT |
 | `verifications[].current_type` | `current_type` | string | Section 2.2 | MUST NOT |
 | `verifications[].transaction_begin` | `transaction_begin` | object | Section 2.4 (conditional) | MUST NOT |
 | `verifications[].transaction_end` | `transaction_end` | object | Section 2.2 | MUST NOT |
@@ -554,7 +554,14 @@ The following non-normative example shows the JWT claim set (before SD-JWT proce
   "iat": 1745402075,
   "exp": 1761127275,
   "vct": "eu.we-build.ereceipt.1",
-  "cnf": { "jwk": { "kty": "EC", "crv": "P-256", "x": "…", "y": "…" } },
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "…",
+      "y": "…"
+    }
+  },
   "attestation_legal_category": "non-qualified-EAA",
   "type": "PURCHASE",
   "receipt_number": "R-2026-04-23-000412",
@@ -595,7 +602,10 @@ The following non-normative example shows the JWT claim set (before SD-JWT proce
           "total_amount_inc_vat": 700
         }
       ],
-      "categorization": { "category": "F&B", "department": "Café" }
+      "categorization": {
+        "category": "F&B",
+        "department": "Café"
+      }
     },
     {
       "name": "Sandwich",
@@ -641,10 +651,15 @@ The following non-normative example shows the JWT claim set (before SD-JWT proce
       "type": "EMV",
       "version": "1.0",
       "public_key": "MIIBIjANBg…",
-      "transactionId": "T-20260423-000871"
+      "transaction_id": "T-20260423-000871"
     }
   ],
-  "status": { "status_list": { "idx": 17, "uri": "https://issuer.merchant.example/status/v1" } }
+  "status": {
+    "status_list": {
+      "idx": 17,
+      "uri": "https://issuer.merchant.example/status/v1"
+    }
+  }
 }
 ```
 
